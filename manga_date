@@ -1,0 +1,18 @@
+# Importing the required modules 
+import requests
+from bs4 import BeautifulSoup
+
+# Assigning a var to the html link
+html_text = requests.get("https://www.viz.com/shonenjump/chapters/jujutsu-kaisen").text
+soup = BeautifulSoup(html_text,'lxml')
+
+# Filtering the required data from the raw text
+published_date = soup.find('div', class_ = 'flex-width-2 type-bs type-sm--sm style-italic').text
+
+# Setting up a system to send notifications on the mobile device
+# Importing PushBullet module
+from pushbullet import Pushbullet
+API_Key = "c19577e4-768b-4460-afd6-632b4791b9ab"
+
+pb = Pushbullet(API_Key)
+push = pb.push_note(f"Last chapter was published on {published_date} and the next cahpter will come out in a week.")
